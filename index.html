@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; media-src 'self' data: blob:; frame-src 'self' blob: data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<title>Miss Rojo&#39;s Classroom</title>
+<link rel="stylesheet" href="vendor/fonts/7f4a4d4690.css">
+<link rel="stylesheet" href="lib/cfz/assets/cfz.css">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body class="pt pt-home" data-role="student" data-cfz-root="lib/cfz/" style="--yc:var(--accent)">
+<a class="pt-skip" href="#main">Skip to the page</a>
+<header class="pt-top" role="banner">
+    <span class="pt-id"><a class="pt-brand" href="index.html">Miss Rojo's Classroom</a></span>
+    <span class="pt-tools"><a class="btn small pt-ico" href="search.html" aria-label="Search" title="Search">🔍</a><button class="btn small pt-ico" type="button" id="sayBtn" hidden aria-label="Read the page aloud" title="Read aloud">🔊</button><button class="btn small pt-ico" type="button" id="setBtn" aria-expanded="false" aria-controls="settings" aria-label="Reading settings" title="Reading settings">Aa</button></span>
+  </header>
+<div class="wrap wide">
+  <main id="main">
+  
+  <section class="pt-intro" aria-labelledby="pick-h">
+    <h1 class="pt-introh">Computing, Year 5 to Year 11</h1>
+    <div class="pt-gate">
+      <h2 id="pick-h">Select your year</h2>
+      <div class="pt-yopts" role="group" aria-labelledby="pick-h"><a class="pt-yopt" href="y5.html" style="--yc:var(--y5)" data-year="5" data-soon="1" aria-pressed="false"><b>5</b><span>Year 5</span><small>Coming soon</small></a><a class="pt-yopt" href="y6.html" style="--yc:var(--y6)" data-year="6" data-soon="1" aria-pressed="false"><b>6</b><span>Year 6</span><small>Coming soon</small></a><a class="pt-yopt" href="y7.html" style="--yc:var(--y7)" data-year="7" aria-pressed="false"><b>7</b><span>Year 7</span></a><a class="pt-yopt" href="y8.html" style="--yc:var(--y8)" data-year="8" aria-pressed="false"><b>8</b><span>Year 8</span></a><a class="pt-yopt" href="y9.html" style="--yc:var(--y9)" data-year="9" aria-pressed="false"><b>9</b><span>Year 9</span></a><a class="pt-yopt" href="y10.html" style="--yc:var(--y10)" data-year="10" aria-pressed="false"><b>10</b><span>Year 10</span></a><a class="pt-yopt" href="y11.html" style="--yc:var(--y11)" data-year="11" aria-pressed="false"><b>11</b><span>Year 11</span></a></div>
+      <div class="pt-field" data-gate hidden><label for="code"><b>Enter the code given by the teacher</b></label><input id="code" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="word-word-number"><p class="muted small" id="gateMsg" role="status" aria-live="polite">It is on the board. You only type it once on this device.</p></div>
+      <a class="btn primary pt-start" id="startBtn" href="y7.html" aria-disabled="true">Start</a>
+      <p class="muted small" id="startHint">Choose your year, then press Start.</p>
+    </div>
+    <div id="continue"></div>
+  </section>
+  </main>
+  
+  <footer class="pf"><div class="pf-row"><span class="pf-copy">© 2026 Miss Rojo's Classroom</span><nav class="pf-legal" aria-label="Legal"><a href="legal.html">Legal notice</a><a href="privacy.html">Privacy</a><a href="storage.html">Cookies and storage</a><a href="terms.html">Terms of use</a><a href="accessibility.html">Accessibility</a></nav><a class="pf-staff" href="https://teacher.rojoclassroom.app/">Staff</a></div><p class="muted small">Your ticks, scores and reading settings are saved on this device only.</p></footer>
+</div>
+
+<script src="shell.js"></script>
+<script src="gate-keys.js"></script>
+<script src="gate.js"></script>
+</body>
+</html>

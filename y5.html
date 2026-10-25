@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; media-src 'self' data: blob:; frame-src 'self' blob: data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Miss Rojo's Classroom</title>
+<style>
+:root{--paper:#FBFAF7;--card:#fff;--ink:#1B2130;--muted:#556072;--line:#D6DAE0;--accent:#0E7C86;--bad:#BF3A2C}
+@media (prefers-color-scheme:dark){:root{--paper:#13171E;--card:#1B212B;--ink:#E8ECF2;--muted:#A4ADBB;--line:#323A47;--accent:#4CC3CF;--bad:#F27D7D}}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:18px;background:var(--paper);color:var(--ink);font:18px/1.6 "Lexend","Atkinson Hyperlegible",system-ui,sans-serif;padding:16px;box-sizing:border-box}
+header{width:100%;display:flex;justify-content:center;padding:4px 0 12px;border-bottom:2px solid var(--line)}
+header b{padding:6px 16px;border:2px solid var(--line);border-radius:99px;background:var(--card)}
+main{max-width:460px;width:100%;background:var(--card);border:2px solid var(--line);border-top:8px solid var(--accent);border-radius:20px;padding:22px;box-sizing:border-box}
+h1{margin:0 0 6px;font-size:1.35rem}p{color:var(--muted);margin:0 0 14px}
+form{display:flex;flex-direction:column;gap:8px}label{font-weight:600}
+input{font:inherit;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button{font:inherit;font-weight:600;min-height:48px;border-radius:12px;border:2px solid var(--accent);background:var(--accent);color:var(--card);cursor:pointer}
+#gateMsg{margin:12px 0 0;min-height:1.6em}#gateMsg.bad{color:var(--bad);font-weight:600}
+nav{display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:center;font-size:.84rem;color:var(--muted)}nav a{color:inherit;min-height:32px;display:inline-flex;align-items:center}nav a.staff{text-decoration:none;opacity:.8}
+</style>
+</head>
+<body data-state="locked" data-gate-page data-year="">
+<header><b>Miss Rojo's Classroom</b></header>
+<main>
+<h1>Enter the code given by the teacher</h1>
+<p>Your year's code is on the board. You only type it once on this device.</p>
+<form id="gateForm"><label for="code">Class code</label><input id="code" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="word-word-number" required><button type="submit">Open</button></form>
+<p id="gateMsg" role="status" aria-live="polite"></p>
+</main>
+<nav aria-label="More"><a href="index.html">Choose your year</a><a href="legal.html">Legal notice</a><a href="privacy.html">Privacy</a><a class="staff" href="https://teacher.rojoclassroom.app/">Staff</a></nav>
+<script type="text/plain" id="ct">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</script>
+<script src="gate-keys.js"></script>
+<script src="gate.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+Self-hosted third-party files (tools/vendor.mjs).
+Fonts (vendor/fonts): Lexend, Atkinson Hyperlegible (+ Mono, Next), Bricolage Grotesque, JetBrains Mono, Chakra Petch,
+Big Shoulders Display, IBM Plex Mono, VT323: SIL Open Font License 1.1 (https://openfontlicense.org), via Google Fonts.
+three.js r128: MIT (https://github.com/mrdoob/three.js). Skulpt 1.2.0: MIT (https://github.com/skulpt/skulpt).
+scratchblocks 3.6.4: MIT (https://github.com/scratchblocks/scratchblocks).
