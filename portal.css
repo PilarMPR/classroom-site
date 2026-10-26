@@ -151,6 +151,20 @@ a.ttile.pt-isdone::after{ content:"✓ understood"; position:absolute; top:10px;
 .pt-xcards{ display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); }
 .pt-xcard{ display:flex; flex-direction:column; gap:4px; padding:14px 16px; border-radius:16px; background:var(--card); border:2px solid var(--line); }
 .pt-xcard.pt-boss{ border-color:var(--yc); }
+.pt-xcard p{ margin:0; }
+.pt-tsteps, .pt-guide{ margin:6px 0 0; padding-left:1.4em; display:flex; flex-direction:column; gap:6px; }
+.pt-guide{ gap:10px; }
+/* a class's diagrams: the drawing, and its short bullets beside it (under it on a phone) */
+.pt-figs{ display:flex; flex-direction:column; gap:22px; }
+.pt-fig{ display:grid; gap:12px 22px; grid-template-columns:minmax(0,3fr) minmax(0,2fr); align-items:center; }
+@media (max-width:760px){ .pt-fig{ grid-template-columns:minmax(0,1fr); } }
+.pt-figpts{ margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:8px; font-size:1.05rem; }
+.pt-figpts li::marker{ color:var(--yc); }
+.pt-try{ margin-top:18px; }
+.pt-board .pt-fig{ grid-template-columns:minmax(0,2fr) minmax(0,1fr); }
+.pt-board .pt-figpts{ font-size:1.25rem; gap:12px; }
+@media (max-width:760px){ .pt-board .pt-fig{ grid-template-columns:minmax(0,1fr); } }
+.pt-guide li::marker, .pt-tsteps li::marker{ font-weight:700; color:var(--yc); }
 .pt-extra{ font-size:0.95rem; }
 
 /* bars: back to the unit (topic page) or to the year (unit page) */
@@ -325,6 +339,13 @@ footer.pf{ display:flex; flex-direction:column; gap:6px; max-width:none; font-si
   .pt-def1 > p, .pt-qa1 > p{ padding-left:14px; }
   .pt-gate{ padding:18px 14px; }
 }
+/* ---------- "Simpler words": two versions of the objectives and success criteria (portal/shell.js) ---------- */
+.pt-soft{ display:none !important; }
+:root.pt-simple .pt-soft{ display:flex !important; }
+:root.pt-simple ul.pt-obj:not(.pt-soft), :root.pt-simple ul.pt-sc:not(.pt-soft){ display:none !important; }
+.pt-simplesw{ align-self:flex-end; margin:0 0 -6px; }
+.pt-simplesw .btn[aria-pressed="true"]{ border-color:var(--yc); background:color-mix(in srgb,var(--yc) 12%,var(--card)); }
+
 /* ---------- Board view (portal/shell.js): the topic page on the class board, one part at a time ---------- */
 .pt-boardbtn{ border-color:var(--yc); }
 :root.pt-boarding[data-size="s"]{ font-size:20px; } :root.pt-boarding[data-size="m"]{ font-size:23px; }

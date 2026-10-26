@@ -141,6 +141,10 @@
   openHash();
   window.addEventListener("hashchange", openHash);
 
+  /* ---------- "Simpler words": the plain-words version of the objectives and success criteria (remembered) ---------- */
+  const simple = v => { root.classList.toggle("pt-simple", v); $$("[data-simple]").forEach(b => { b.setAttribute("aria-pressed", String(v)); b.textContent = v ? "Precise words" : "Simpler words"; }); ls.set("portal.simple", v ? "1" : ""); };
+  if ($("[data-simple]")) { simple(ls.get("portal.simple") === "1"); $$("[data-simple]").forEach(b => b.addEventListener("click", () => simple(!root.classList.contains("pt-simple")))); }
+
   /* ---------- Board view: the topic page on the class board, one part at a time ----------
      Every part starts closed (only its heading shows). → / PageDown / Space (a clicker) opens the next part or the
      next explanation step or definition and closes the one before; ← / PageUp goes back; click any heading to jump;
@@ -155,6 +159,8 @@
       for (const part of $$(".pt-part", pupilRoot())) {
         if (part.id === "definitions") { frames.push({ part }); $$(".pt-def1", part).forEach(def => frames.push({ part, def })); }
         else if (part.id === "steps") $$(".pt-step", part).forEach(step => frames.push({ part, step }));
+        // diagrams one at a time, then the live toys
+        else if (part.id === "diagram" && $(".pt-fig", part)) { $$(".pt-fig", part).forEach(fig => frames.push({ part, fig })); if ($(".pt-try", part)) frames.push({ part, fig: $(".pt-try", part) }); }
         else frames.push({ part });
       }
     };
@@ -174,10 +180,11 @@
         // "Going further" shows only above the first step after it
         $$(".pt-further", f.part).forEach(h => { const first = $$(".pt-step", f.part).find(s => h.compareDocumentPosition(s) & Node.DOCUMENT_POSITION_FOLLOWING); h.classList.toggle("pt-bhide", first !== f.step); });
       }
+      if (f.fig) $$(".pt-fig, .pt-try", f.part).forEach(x => x.classList.toggle("pt-bhide", x !== f.fig));
       const pi = parts.indexOf(f.part);
       $$(".pt-bdot", bar).forEach((d, j) => { d.classList.toggle("on", j === pi); d.classList.toggle("done", j < pi); });
       $(".pt-bcount", bar).textContent = `${cur + 1} / ${frames.length}`;
-      $(".pt-bnow", bar).textContent = label(f.part) + (f.step ? ` · ${$("h3", f.step) ? $("h3", f.step).textContent.trim() : ""}` : f.def ? ` · ${$("summary", f.def).textContent.trim()}` : "");
+      $(".pt-bnow", bar).textContent = label(f.part) + (f.step ? ` · ${$("h3", f.step) ? $("h3", f.step).textContent.trim() : ""}` : f.def ? ` · ${$("summary", f.def).textContent.trim()}` : f.fig ? (f.fig.classList.contains("pt-try") ? " · Try it" : ` · ${$$(".pt-fig", f.part).indexOf(f.fig) + 1} of ${$$(".pt-fig", f.part).length}`) : "");
       (f.step || f.def || f.part).scrollIntoView({ block: "start", behavior: "smooth" });
     }
     function enter() {
