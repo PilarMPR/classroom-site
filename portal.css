@@ -154,6 +154,13 @@ a.ttile.pt-isdone::after{ content:"✓ understood"; position:absolute; top:10px;
 .pt-xcard p{ margin:0; }
 .pt-tsteps, .pt-guide{ margin:6px 0 0; padding-left:1.4em; display:flex; flex-direction:column; gap:6px; }
 .pt-guide{ gap:10px; }
+/* a class's exam-style questions (IGCSE practice classes) */
+.pt-examh{ display:flex; flex-wrap:wrap; gap:4px 12px; align-items:baseline; margin:0 0 6px; }
+.pt-xq{ margin:0; padding-left:1.5em; display:flex; flex-direction:column; gap:14px; }
+.pt-xq > li > p{ margin:0 0 6px; }
+.pt-xq li::marker{ font-weight:700; color:var(--yc); }
+.pt-mk{ font-weight:700; white-space:nowrap; }
+.pt-tsteps li, .pt-xq > li > p, .pt-guide li, .pt-figpts li{ overflow-wrap:anywhere; }   /* long web addresses wrap on phones */
 /* a class's diagrams: the drawing, and its short bullets beside it (under it on a phone) */
 .pt-figs{ display:flex; flex-direction:column; gap:22px; }
 .pt-fig{ display:grid; gap:12px 22px; grid-template-columns:minmax(0,3fr) minmax(0,2fr); align-items:center; }
