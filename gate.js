@@ -85,6 +85,20 @@
     return true;
   }
 
+  // Housekeeping each time a gate page loads (security audit 2026-10-26): delete expired years from the store, not only
+  // refuse them; and clear what the teacher site left on this address before it moved (its key and its worker).
+  if (window.indexedDB) {
+    loadRaw().then(v => {
+      if (!v) return;
+      let changed = false;
+      for (const [y, e] of Object.entries(v.years)) if (!fresh(e)) { delete v.years[y]; changed = true; }
+      if (!Object.keys(v.years).length) return keyStore("readwrite", s => s.delete("keys"));
+      if (changed) return saveKeys(v);
+    }).catch(() => {});
+    try { indexedDB.deleteDatabase("classroom-teacher"); } catch (e) {}
+  }
+  if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => { if (/\/teacher\/$/.test(r.scope)) r.unregister(); })).catch(() => {});
+
   if (!able) {
     if (input) input.disabled = true;
     say("This browser cannot open the Classroom. Use an up-to-date Chrome, Edge, Firefox or Safari (a private window in Firefox does not work).", true);

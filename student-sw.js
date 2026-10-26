@@ -50,11 +50,14 @@ function getKeys() {
 }
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const dec = (key, bytes) => crypto.subtle.decrypt({ name: "AES-GCM", iv: bytes.slice(0, 12) }, key, bytes.slice(12));
-const page = (text, status = 200) => new Response(text, { status, headers: { "Content-Type": TYPES.html, "Cache-Control": "no-store" } });
+// every page this worker serves refuses to sit in another site's frame (GitHub Pages sends no such header)
+const HTML = { "Content-Type": TYPES.html, "Cache-Control": "no-store", "X-Frame-Options": "SAMEORIGIN", "Content-Security-Policy": "frame-ancestors 'self'" };
+const page = (text, status = 200) => new Response(text, { status, headers: HTML });
 const isPlain = p => PLAIN.has(p) || PLAIN_DIRS.some(d => p.startsWith(d));
 
 self.addEventListener("install", () => self.skipWaiting());
-self.addEventListener("activate", e => e.waitUntil(self.clients.claim()));
+// on activation, also clear what the teacher site left on this address before it moved to its own (audit 2026-10-26)
+self.addEventListener("activate", e => e.waitUntil(Promise.all([self.clients.claim(), new Promise(r => { try { const q = indexedDB.deleteDatabase("classroom-teacher"); q.onsuccess = q.onerror = q.onblocked = () => r(); } catch (x) { r(); } })])));
 self.addEventListener("fetch", e => {
   const url = new URL(e.request.url);
   let path = url.pathname;
@@ -73,7 +76,7 @@ async function serve(path) {
     const text = await res.text();
     const m = text.match(/<script type="text\/plain" id="ct">([A-Za-z0-9+/=]+)<\/script>/);
     if (!key || !m) return page(text);
-    try { return new Response(await dec(key, b64(m[1])), { headers: { "Content-Type": TYPES.html, "Cache-Control": "no-store" } }); }
+    try { return new Response(await dec(key, b64(m[1])), { headers: HTML }); }
     catch (e) { return page(text.replace('data-state="locked"', 'data-state="wrong"')); }   // the code changed since this device opened the site
   }
   if (!key) return new Response("Locked", { status: 403 });
