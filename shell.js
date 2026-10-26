@@ -141,6 +141,97 @@
   openHash();
   window.addEventListener("hashchange", openHash);
 
+  /* ---------- Board view: the topic page on the class board, one part at a time ----------
+     Every part starts closed (only its heading shows). → / PageDown / Space (a clicker) opens the next part or the
+     next explanation step or definition and closes the one before; ← / PageUp goes back; click any heading to jump;
+     Esc leaves. Pupils see the same parts, in the same order, on their own page at home. */
+  const boardBtns = $$("[data-board]");
+  if (boardBtns.length) {
+    // the pupils' page: the whole page on the pupil site, the Student view panel (#student) on the teacher site
+    const pupilRoot = () => document.getElementById("student") || $("#main");
+    let frames = [], cur = -1, bar = null;
+    const build = () => {
+      frames = [];
+      for (const part of $$(".pt-part", pupilRoot())) {
+        if (part.id === "definitions") { frames.push({ part }); $$(".pt-def1", part).forEach(def => frames.push({ part, def })); }
+        else if (part.id === "steps") $$(".pt-step", part).forEach(step => frames.push({ part, step }));
+        else frames.push({ part });
+      }
+    };
+    const label = p => ($(".pt-ph", p) || p).textContent.trim().replace(/\s+/g, " ");
+    function show(i) {
+      if (!frames.length) return;
+      cur = Math.max(0, Math.min(frames.length - 1, i));
+      const f = frames[cur], parts = [...new Set(frames.map(x => x.part))];
+      for (const p of parts) {
+        const on = p === f.part;
+        p.classList.toggle("pt-bclosed", !on);
+        if (p.tagName === "DETAILS") p.open = on;
+      }
+      if (f.part.id === "definitions") { const defs = $$(".pt-def1", f.part), k = f.def ? defs.indexOf(f.def) : -1; defs.forEach((d, j) => d.open = j <= k); }
+      if (f.part.id === "steps") {
+        $$(".pt-step", f.part).forEach(s => s.classList.toggle("pt-bhide", s !== f.step));
+        // "Going further" shows only above the first step after it
+        $$(".pt-further", f.part).forEach(h => { const first = $$(".pt-step", f.part).find(s => h.compareDocumentPosition(s) & Node.DOCUMENT_POSITION_FOLLOWING); h.classList.toggle("pt-bhide", first !== f.step); });
+      }
+      const pi = parts.indexOf(f.part);
+      $$(".pt-bdot", bar).forEach((d, j) => { d.classList.toggle("on", j === pi); d.classList.toggle("done", j < pi); });
+      $(".pt-bcount", bar).textContent = `${cur + 1} / ${frames.length}`;
+      $(".pt-bnow", bar).textContent = label(f.part) + (f.step ? ` · ${$("h3", f.step) ? $("h3", f.step).textContent.trim() : ""}` : f.def ? ` · ${$("summary", f.def).textContent.trim()}` : "");
+      (f.step || f.def || f.part).scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+    function enter() {
+      build(); if (!frames.length) return;
+      root.classList.add("pt-boarding"); body.classList.add("pt-board");
+      const parts = [...new Set(frames.map(x => x.part))];
+      bar = document.createElement("nav");
+      bar.className = "pt-bbar"; bar.setAttribute("aria-label", "Board view");
+      bar.innerHTML = `<button class="btn small" type="button" data-b="prev" aria-label="Back (←)">◀</button>
+        <span class="pt-bdots">${parts.map((p, j) => `<button type="button" class="pt-bdot" data-b="part" data-i="${j}" title="${esc(label(p))}" aria-label="${esc(label(p))}"></button>`).join("")}</span>
+        <span class="pt-bnow muted small"></span><span class="pt-bcount muted small"></span>
+        <button class="btn small primary" type="button" data-b="next" aria-label="Next (→)">▶</button><button class="btn small" type="button" data-b="exit" aria-label="Leave Board view (Esc)">✕</button>`;
+      document.body.append(bar);
+      bar.addEventListener("click", e => {
+        const b = e.target.closest("[data-b]"); if (!b) return;
+        if (b.dataset.b === "next") show(cur + 1);
+        if (b.dataset.b === "prev") show(cur - 1);
+        if (b.dataset.b === "exit") leave();
+        if (b.dataset.b === "part") show(frames.findIndex(f => f.part === parts[+b.dataset.i]));
+      });
+      try { if (document.fullscreenElement == null && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {}); } catch (e) {}
+      show(0);
+    }
+    function leave() {
+      root.classList.remove("pt-boarding"); body.classList.remove("pt-board");
+      $$(".pt-bclosed, .pt-bhide").forEach(x => x.classList.remove("pt-bclosed", "pt-bhide"));
+      if (bar) { bar.remove(); bar = null; } cur = -1;
+      try { if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {}); } catch (e) {}
+    }
+    boardBtns.forEach(b => b.addEventListener("click", enter));
+    // a closed part's heading jumps to it
+    document.addEventListener("click", e => {
+      if (!body.classList.contains("pt-board")) return;
+      const h = e.target.closest(".pt-bclosed > .pt-ph, .pt-bclosed > summary");
+      if (!h) return;
+      e.preventDefault();
+      const part = h.parentElement, i = frames.findIndex(f => f.part === part);
+      if (i >= 0) show(i);
+    });
+    document.addEventListener("keydown", e => {
+      if (!body.classList.contains("pt-board")) return;
+      const t = e.target, typing = t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable);
+      if (e.key === "Escape") { leave(); return; }
+      if (typing) return;
+      if (["ArrowRight", "PageDown"].includes(e.key) || (e.key === " " && !(t && t.tagName === "BUTTON"))) { e.preventDefault(); show(cur + 1); }
+      else if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+      else if (e.key === "Home") { e.preventDefault(); show(0); }
+      else if (e.key === "End") { e.preventDefault(); show(frames.length - 1); }
+    });
+    // leaving full screen with the browser's own Esc also leaves Board view
+    document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement && body.classList.contains("pt-board")) leave(); });
+    if (location.hash === "#board") enter();
+  }
+
   /* ---------- live toys and formulas (library engines) ---------- */
   if (window.TOYS) $$("[data-toy]").forEach(el => {
     const T = window.TOYS[el.dataset.toy]; if (!T) return;

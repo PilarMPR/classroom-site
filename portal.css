@@ -325,6 +325,33 @@ footer.pf{ display:flex; flex-direction:column; gap:6px; max-width:none; font-si
   .pt-def1 > p, .pt-qa1 > p{ padding-left:14px; }
   .pt-gate{ padding:18px 14px; }
 }
+/* ---------- Board view (portal/shell.js): the topic page on the class board, one part at a time ---------- */
+.pt-boardbtn{ border-color:var(--yc); }
+:root.pt-boarding[data-size="s"]{ font-size:20px; } :root.pt-boarding[data-size="m"]{ font-size:23px; }
+:root.pt-boarding[data-size="l"]{ font-size:27px; } :root.pt-boarding[data-size="xl"]{ font-size:31px; }
+.pt-board .pt-top, .pt-board #settings, .pt-board .pt-ubar, .pt-board .pt-tmeta, .pt-board .pt-done,
+.pt-board .pt-dock, .pt-board .pt-panels, .pt-board footer.pf, .pt-board .pt-skip{ display:none !important; }
+.pt-board #main{ padding-bottom:110px; gap:14px; }
+.pt-board .wrap{ max-width:1180px !important; }
+.pt-board .pt-thead h1{ font-size:1.7rem; }
+.pt-board .pt-tbig{ font-size:0.8rem; }
+/* a closed part: only its heading, as a row you can click */
+.pt-board .pt-part.pt-bclosed{ padding:10px 18px; cursor:pointer; opacity:.72; }
+.pt-board .pt-part.pt-bclosed > :not(.pt-ph){ display:none !important; }
+.pt-board .pt-part.pt-bclosed:hover{ opacity:1; border-color:var(--yc); }
+.pt-board .pt-part:not(.pt-bclosed){ border-color:var(--yc); box-shadow:0 0 0 3px color-mix(in srgb,var(--yc) 22%,transparent); }
+.pt-board .pt-bhide{ display:none !important; }
+.pt-board .pt-part, .pt-board .pt-step{ scroll-margin-top:12px; }
+.pt-board .pt-explainer, .pt-board .pt-quiz, .pt-board .pt-syl{ max-width:none; }
+.pt-bbar{ position:fixed; left:0; right:0; bottom:0; z-index:40; display:flex; gap:10px; align-items:center; padding:10px max(16px, calc((100% - 1180px)/2)); background:var(--paper); border-top:2px solid var(--line); }
+.pt-bbar .btn{ min-width:48px; }
+.pt-bdots{ display:flex; gap:6px; flex-wrap:wrap; }
+.pt-bdot{ width:16px; height:16px; padding:0; border-radius:50%; border:2px solid var(--yc); background:transparent; cursor:pointer; }
+.pt-bdot.done{ background:color-mix(in srgb,var(--yc) 45%,transparent); }
+.pt-bdot.on{ background:var(--yc); transform:scale(1.25); }
+.pt-bnow{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+@media (max-width:560px){ .pt-bnow{ display:none; } .pt-bbar{ gap:6px; } }
+
 @media print{
   .pt-top, #settings, .pt-done, .pn, .pf, .pt-dock, .pt-panels{ display:none !important; }
 }
