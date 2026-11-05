@@ -383,3 +383,17 @@ footer.pf{ display:flex; flex-direction:column; gap:6px; max-width:none; font-si
 @media print{
   .pt-top, #settings, .pt-done, .pn, .pf, .pt-dock, .pt-panels{ display:none !important; }
 }
+/* a topic row with ▶ Present beside it (year page and unit page) */
+.tp-trow{ display:flex; gap:6px; align-items:stretch; }
+.tp-trow > a:first-child{ flex:1; min-width:0; }
+.tp-index a.tp-play{ flex:none; display:grid; grid-template-columns:none; place-items:center; width:52px; min-height:48px; padding:0; font-size:1.1rem; color:var(--yc); }
+.tp-index a.tp-play:hover, .tp-index a.tp-play:focus-visible{ border-color:var(--yc); background:color-mix(in srgb, var(--yc) 12%, var(--card)); }
+@media (max-width:560px){
+  /* on a phone: number, then the title with its codes under it, then ›; ▶ a little narrower */
+  .pt-trows .tp-trow > a:first-child{ grid-template-columns:2.4em minmax(0,1fr) auto; }
+  .pt-trows .tp-trow > a:first-child .pt-tnum{ grid-column:1; grid-row:1; }
+  .pt-trows .tp-trow > a:first-child .pt-tt{ grid-column:2; grid-row:1; }
+  .pt-trows .tp-trow > a:first-child small{ grid-column:2; grid-row:auto; justify-self:start; }
+  .pt-trows .tp-trow > a:first-child > span[aria-hidden]{ grid-column:3; grid-row:1; }
+  .tp-index a.tp-play{ width:44px; }
+}
