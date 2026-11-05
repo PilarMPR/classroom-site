@@ -5,7 +5,9 @@
    key; shared pages (the study library, search) with a shared key that every year's code unlocks
    (gate-keys.js holds it wrapped under each year's key, so nothing secret is published).
    The code is turned into a key (PBKDF2-SHA-256; the salt is made from the code), checked by unwrapping the shared
-   key, and the keys (never the code) are saved in IndexedDB. student-sw.js then decrypts every page on this device. */
+   key, and the keys (never the code) are saved in IndexedDB. student-sw.js then decrypts every page on this device.
+   A year's code also opens every earlier year (Year 11 opens 7 to 10), never a later one: gate-keys.js holds each
+   earlier year's key wrapped under the later year's key. */
 (function () {
   "use strict";
   // never inside another site's frame (a meta CSP cannot set frame-ancestors)
@@ -51,7 +53,13 @@
   async function tryCode(code) {
     const K = await derive(code);
     for (const y of GK.years) {
-      try { const raw = await unwrap(K, GK.wrap[y]); return { y, K, common: await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]) }; } catch (e) {}
+      let raw; try { raw = await unwrap(K, GK.wrap[y]); } catch (e) { continue; }
+      // a year's code also opens every earlier year: their keys are wrapped under this year's key (encrypt.mjs)
+      const earlier = {};
+      for (const [e, w] of Object.entries((GK.down || {})[y] || {})) {
+        try { earlier[e] = await crypto.subtle.importKey("raw", await unwrap(K, w), "AES-GCM", false, ["decrypt"]); } catch (x) {}
+      }
+      return { y, K, earlier, common: await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]) };
     }
     return null;
   }
@@ -59,6 +67,7 @@
     const cur = (await loadRaw().catch(() => null)) || { years: {} };
     for (const [y, e] of Object.entries(cur.years)) if (!fresh(e)) delete cur.years[y];   // drop expired years
     const now = Date.now();
+    for (const [e, k] of Object.entries(hit.earlier || {})) cur.years[e] = { key: k, at: now };
     cur.years[hit.y] = { key: hit.K, at: now }; cur.common = { key: hit.common, at: now };
     await saveKeys(cur);
   }
@@ -79,7 +88,7 @@
     await remember(hit);
     input.value = "";
     sessionStorage.removeItem("cls-restart");
-    if (want && hit.y !== want) { say(`That is the Year ${hit.y} code. This is for Year ${want}: type the Year ${want} code.`, true); return false; }
+    if (want && hit.y !== want && !(hit.earlier || {})[want]) { say(`That is the Year ${hit.y} code. This is for Year ${want}: type the Year ${want} code.`, true); return false; }
     say("Opening…");
     await startWorker();
     return true;
