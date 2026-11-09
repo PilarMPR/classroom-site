@@ -19,7 +19,7 @@ const TYPES = {
   gif: "image/gif", webp: "image/webp", ico: "image/x-icon", woff2: "font/woff2", woff: "font/woff", pdf: "application/pdf"
 };
 // the year a file belongs to (same rule as tools/encrypt.mjs), or 0 for a shared file
-const YEAR_FILE = /^(?:y|revise-y|artifacts-y|study-y|board-y|slides-y)(\d+)(?=[-.])/;
+const YEAR_FILE = /^(?:v2\/(?:notes-|revision-|library-|revise-|exam-|game-|challenge-)?y|y|revise-y|artifacts-y|study-y|board-y|slides-y)(\d+)(?=[-.])/;
 const yearOf = path => { const m = path.slice(SCOPE.length).match(YEAR_FILE); return m && CODED_YEARS.includes(+m[1]) ? +m[1] : 0; };
 
 // The keys are kept as { years: { 7: { key, at }, … }, common: { key, at } }. Each year expires 180 days after its code

@@ -1,7 +1,7 @@
 /* Classroom Portal, published student site: the class codes (the gate). One code per year, written on the board.
    Only the published copy (dist/site) has it: tools/encrypt.mjs adds this script and gate-keys.js to the intro page
    (index.html) and to the "enter the code" page that every other student page becomes.
-   A year's pages (y7.html, y7-u1.html, y7-u1-l1.html, slides-y7-…, revise-y7.html …) are encrypted with that year's
+   A year's pages (y7.html, y7-u1.html, y7-u1-l1.html, slides-y7-…, revise-y7.html, v2/y7-u1.html …) are encrypted with that year's
    key; shared pages (the study library, search) with a shared key that every year's code unlocks
    (gate-keys.js holds it wrapped under each year's key, so nothing secret is published).
    The code is turned into a key (PBKDF2-SHA-256; the salt is made from the code), checked by unwrapping the shared
