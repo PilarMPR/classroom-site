@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; media-src 'self' data: blob:; frame-src 'self' blob: data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Miss Rojo's Classroom</title>
+<style>
+:root{--paper:#FBFAF7;--card:#fff;--ink:#1B2130;--muted:#556072;--line:#D6DAE0;--accent:#0E7C86;--bad:#BF3A2C}
+@media (prefers-color-scheme:dark){:root{--paper:#13171E;--card:#1B212B;--ink:#E8ECF2;--muted:#A4ADBB;--line:#323A47;--accent:#4CC3CF;--bad:#F27D7D}}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:18px;background:var(--paper);color:var(--ink);font:18px/1.6 "Lexend","Atkinson Hyperlegible",system-ui,sans-serif;padding:16px;box-sizing:border-box}
+header{width:100%;display:flex;justify-content:center;padding:4px 0 12px;border-bottom:2px solid var(--line)}
+header b{padding:6px 16px;border:2px solid var(--line);border-radius:99px;background:var(--card)}
+main{max-width:460px;width:100%;background:var(--card);border:2px solid var(--line);border-top:8px solid var(--accent);border-radius:20px;padding:22px;box-sizing:border-box}
+h1{margin:0 0 6px;font-size:1.35rem}p{color:var(--muted);margin:0 0 14px}
+form{display:flex;flex-direction:column;gap:8px}label{font-weight:600}
+input{font:inherit;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button{font:inherit;font-weight:600;min-height:48px;border-radius:12px;border:2px solid var(--accent);background:var(--accent);color:var(--card);cursor:pointer}
+#gateMsg{margin:12px 0 0;min-height:1.6em}#gateMsg.bad{color:var(--bad);font-weight:600}
+nav{display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:center;font-size:.84rem;color:var(--muted)}nav a{color:inherit;min-height:32px;display:inline-flex;align-items:center}nav a.staff{text-decoration:none;opacity:.8}
+</style>
+</head>
+<body data-state="locked" data-gate-page data-year="10">
+<header><b>Miss Rojo's Classroom</b></header>
+<main>
+<h1>Enter the code given by the teacher</h1>
+<p>This page is for Year 10. The Year 10 code is on the board. You only type it once on this device.</p>
+<form id="gateForm"><label for="code">Class code</label><input id="code" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="word-word-number" required><button type="submit">Open</button></form>
+<p id="gateMsg" role="status" aria-live="polite"></p>
+</main>
+<nav aria-label="More"><a href="index.html">Choose your year</a><a href="legal.html">Legal notice</a><a href="privacy.html">Privacy</a><a class="staff" href="https://teacher.rojoclassroom.app/">Staff</a></nav>
+<script type="text/plain" id="ct">LVpUoVS2x2xoco53Ks6jo12J6Pz4tInrNiuIQ+dCOBe3+MM1tD+XzQHAhjN0JLzxO1MLLpn/1ZiOLw5olSRc+JK/Ze62TyP1tUsEepbBRw+snEspOjkCznIASHOOuYiIKynttUM1U3gNNAcdJXG4eSsyEfl9kWTt11b10wWPBgn1hg9A60uixtknI3kAZ/lbf8X2ZuxLexluitXGzkY4K4BaZXtUn/OgZwiFTMpyNStJsUUCeZkLVQCF2f0X2+GUTSKtDRJvPNDAvh+39Qh1dpT2IWjx9mLfWLKAr41T3EGOOWoWIKbAVNCJaTNAUep9Q4TsOyEAjFIExi/+xsAvIOt/Viht2Jf+b5zBX/n9cwyVUPVFBM6ysEnyZj3HPVaN3FbO8+FNNqXwPvHrjswfi0wkauktK/pgfQYBnRLk9EMOXc6TMdUa86O1FfnyekoYZe2K/CfCaCnQfHJirsCPSiJvIEaG5QXrO6/IqBakah8Am5qG27DheqSls4rVI1M0MPI7ddGnOEfVRDE4/sOdZhR7jpXocfpIyyvdL/gSKysTbyPF4zMc3bqm1NAAxv3feNdV7YBmDUsVJkInc5uW9D0EaHKYa5VOpJBaDgW6yaoIxka+Ibv8EGMOX1CnbfCBCxX5c2K6FRmjSI/I0Z7+b5wplT91eelVlwiogc5AVM1py9u6V5Xtg2SQP7q27ql6n7zuf7T2XBBBOk2AKekaJZ4MMspbQbGqE0VkeRYThSloH83B+IzrpodeYv0PtLv4OjY189kWhmKufNXk8gBzrzNMuseqtWkb9dGctaId7B6IfD5s7eqyajif4ZcctyDvh5cb2TBp4pQaEBr5U5MmF+R+uYAjhtbiNu0XAnZhnxbqpgJC8sV7e9V7IaXRtkruIy5CGKPTK1iOkO80l80kuy+EeLWEnOpVTmM06bXE+qde0BOh57pVuN1R3PFtLIreSE+rtvGtWF/8iPtLuXu27IftyQCzZzCBS4TPxRvUgAKmIMq4UjeCsblQDy6dfL1fhPqX9+9jLxRekZlPgZUVKuhmHeGIsaEoayrBJh9v8ZA3if4jm5CXR4flK9EkKvBGGi6py6S2ADtIa6zFGLenfyzLYyubsdrI8RG7nRHTP1ZncICZGJjC9Sn+sg5Eww==</script>
+<script src="gate-keys.js"></script>
+<script src="gate.js"></script>
+</body>
+</html>
